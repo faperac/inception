@@ -8,7 +8,6 @@ COPY		./conf/mariadb.conf /etc/my.cnf.d/
 
 RUN		chmod +x /setup.sh /etc/my.cnf.d/mariadb.conf
 
-ENTRYPOINT	["sh", "./setup.sh"]
-
+ENTRYPOINT	["sh", "setup.sh"]	
 
 

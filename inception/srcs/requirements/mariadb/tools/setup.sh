@@ -2,9 +2,13 @@
 
 chown -R mysql:mysql /var/lib/mysql
 
-mysql_install_db --user=mysql --ldata=/var/lib/mysql
+echo "chown ok"
 
-mysqld_safe --datadir='var/lib/mysql' &
+mysql_install_db --user=mysql --datadir=/var/lib/mysql
+
+echo "mysql_install_db ok"
+
+/usr/bin/mysqld_safe --datadir='/var/lib/mysql' &
 
 while ! /usr/bin/mysqladmin ping --silent ; do
 	echo "mysql connecting ..."
