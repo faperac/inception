@@ -11,5 +11,3 @@ RUN		chmod +x /setup.sh /etc/my.cnf.d/mariadb.conf
 EXPOSE		3306
 
 ENTRYPOINT	["sh", "setup.sh"]	
-
-
