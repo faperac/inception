@@ -15,13 +15,13 @@ while ! /usr/bin/mysqladmin ping --silent ; do
 	sleep 1
 done
 
-mysql -u root -e "DELETE FROM mysql.user WHERE User='';"
 mysql -u root -e "DROP DATABASE IF EXISTS test;"
-mysql -u root -e "FLUSH PRIVILEGES;"
+mysql -u root -e "DELETE FROM mysql.user WHERE User='';"
+mysql -u root -e "DELETE FROM mysql.db WHERE Db='test';"
 
-mysql -u root -e "CREATE DATABASE ${DB_NAME};"
-mysql -u root -e "CREATE USER '${DB_USER}'@'%' IDENTIFY BY '${DB_PW}';"
-mysql -u root -e "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'%';"
+mysql -u root -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
+mysql -u root -e "CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$DB_PW';"
+mysql -u root -e "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%' WITH GRANT OPTION;"
 mysql -u root -e "FLUSH PRIVILEGES;"
 
 mysqladmin shutdown
