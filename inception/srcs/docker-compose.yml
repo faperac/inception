@@ -5,14 +5,14 @@ services:
   mariadb:
     container_name : mariadb
     build:
-      ./requirement/mariadb
+      ./requirements/mariadb
     image: mariadb    
     networks:
       - inception
     env_file:
       - .env
     volumes:
-      - mariadb_data: /var/lib/mysql
+      - mariadb:/var/lib/mysql
     restart: on-failure
 
   nginx:
@@ -27,7 +27,7 @@ services:
     env_file:
       - .env
     volumes:
-      - wordpress: /var/www
+      - wordpress:/var/www
     restart: on-failure
     depends_on:
       - wordpress
@@ -47,22 +47,22 @@ services:
     depends_on:
       - mariadb
 
-network:
+networks:
   inception:
     driver: bridge
 
-volume:
+volumes:
   wordpress:
     driver: local
     name: wordpress
     driver_opts:
       type: none
       o: bind
-      device: /home/user/wordpress
+      device: /home/fabperei/wordpress
   mariadb:
     driver: local
     name: mariadb
     driver_opts:
       type: none
       o: bind
-      device: /home/user/mariadb
+      device: /home/fabperei/mariadb

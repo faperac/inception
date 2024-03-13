@@ -20,8 +20,8 @@ mysql -u root -e "DROP DATABASE IF EXISTS test;"
 mysql -u root -e "FLUSH PRIVILEGES;"
 
 mysql -u root -e "CREATE DATABASE ${DB_NAME};"
-mysql -u root -e "CREATE USER '${DB_USER}'@'%' IDENTIFIED BY '${DB_PW}';"
-mysql -u root -e "GRANT ALL PRIVILEGES ON database * TO '${DB_USER}'@'%';"
+mysql -u root -e "CREATE USER '${DB_USER}'@'%' IDENTIFY BY '${DB_PW}';"
+mysql -u root -e "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'%';"
 mysql -u root -e "FLUSH PRIVILEGES;"
 
 mysqladmin shutdown
