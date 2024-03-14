@@ -6,7 +6,9 @@ RUN	apk add --no-cache \
 	php8-mysqli \
 	php8-phar \
 	php8-iconv \
-	wget
+	wget	\
+	mariadb \
+	mariadb-client
 
 WORKDIR	/var/www
 
@@ -19,6 +21,8 @@ RUN	wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
 	&& chmod +x wp-cli.phar \
 	&& mv wp-cli.phar /usr/local/bin/wp
 
+RUN	mkdir -p /var/www/html/
+
 RUN	cp -r wordpress/* .
 
 RUN	rm -r wordpress
@@ -27,7 +31,10 @@ COPY	./conf/www.conf /etc/php8/php-fpm.d/www.conf
 
 COPY	./tools/setup.sh /tmp
 
+RUN	chmod +x /tmp/setup.sh
+
 EXPOSE	9000
 
-CMD	["/bin/sh" , "/tmp/setup.sh"]
+# CMD	["/bin/sh" , "/tmp/setup.sh"]
+CMD	["top"]
 

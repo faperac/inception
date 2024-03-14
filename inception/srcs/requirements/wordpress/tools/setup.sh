@@ -1,10 +1,10 @@
 #!/bin/sh
 
 timeout=10
-while ! mariadb -h 3306 -u $DB_USER -p$DB_PW -e ";"; do
+while ! mariadb -h mariadb -u $DB_USER -p$DB_PW -e ";"; do
 	sleep 1
 	timeout=$(($timeout - 1))
-	if ($timeout -eq 0); then
+	if [ $timeout -eq 0 ]; then
 		echo "ERROR Timeout connect to db."
 		exit 1
 	fi

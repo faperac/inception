@@ -19,7 +19,6 @@ done
 mysql -u root -e "DROP DATABASE IF EXISTS test;"
 mysql -u root -e "DELETE FROM mysql.user WHERE User='';"
 mysql -u root -e "DELETE FROM mysql.db WHERE Db='test';"
-echo "ici bug"
 # Inserting the data into the database
 mysql -u root -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
 mysql -u root -e "CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$DB_PW';"
