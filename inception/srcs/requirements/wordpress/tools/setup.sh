@@ -1,11 +1,44 @@
 #!/bin/sh
 
-sed -i "s/data_base_name_here/$DB_NAME/g" /var/www/wp-config.php
+timeout=10
+while ! mariadb -h 3306 -u $DB_USER -p$DB_PW -e ";"; do
+	sleep 1
+	timeout=$(($timeout - 1))
+	if ($timeout -eq 0); then
+		echo "ERROR Timeout connect to db."
+		exit 1
+	fi
+done
+echo "Mariadb ok"
 
-sed -i "s/username_here/$DB_USER/g" /var/www/wp-config.php
 
-sed -i "s/password_here/$DB_PASSWORD/g" /var/www/wp-config.php
 
-chmod -R 777 /var/www/*
+if [ ! -f /var/www/html/wp-config.php]; then
+	find /var/www/html/ -type d -exec chmod 755 {} \;
+	find /var/www/html/ -type f -exec chmod 644 {} \;
 
-php-fpm8 -F
+wp config create --dbname=$WP_DB_NAME \
+	--dbuser=$DB_USER \
+	--dbpass=$DB_PASSWORD \
+	--dbhost=$DB_HOST \
+	--dbcharset="utf8" \
+	--dbprefix="wp_" \
+	--allow-root
+wp core install --allow-root \
+	--path='/var/www/html/' \
+	--url=$WP_URL \
+	--title=$WP_TITLE \
+	--admin_user=$WP_ADMIN_USER \
+	--admin_password=$WP_ADMIN_PASSWORD \
+	--admin_email=$WP_ADMIN_EMAIL \
+	--skip-email
+wp user create --allow-root \
+	--path='/var/www/html/' \
+	$WP_CONTRIB_USER $WP_CONTRIB_EMAIL \
+	--user_pass=$WP_CONTRIB_PASSWORD \
+	--role=contributor
+fi
+
+sleep 2
+echo "Wordpress ready"
+pfp-fpm8 -F -R

@@ -25,8 +25,6 @@ RUN	rm -r wordpress
 
 COPY	./conf/www.conf /etc/php8/php-fpm.d/www.conf
 
-COPY	./conf/wp-config.php /var/www/
-
 COPY	./tools/setup.sh /tmp
 
 EXPOSE	9000
