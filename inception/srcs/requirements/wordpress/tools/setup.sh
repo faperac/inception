@@ -11,15 +11,13 @@ while ! mariadb -h mariadb -u $DB_USER -p$DB_PW -e ";"; do
 done
 echo "Mariadb ok"
 
-
-
-if [ ! -f /var/www/html/wp-config.php]; then
+if [ ! -f /var/www/html/wp-config.php ]; then
 	find /var/www/html/ -type d -exec chmod 755 {} \;
 	find /var/www/html/ -type f -exec chmod 644 {} \;
 
-wp config create --dbname=$WP_DB_NAME \
+wp config create --dbname=$DB_NAME \
 	--dbuser=$DB_USER \
-	--dbpass=$DB_PASSWORD \
+	--dbpass=$DB_PW \
 	--dbhost=$DB_HOST \
 	--dbcharset="utf8" \
 	--dbprefix="wp_" \
@@ -41,4 +39,4 @@ fi
 
 sleep 2
 echo "Wordpress ready"
-pfp-fpm8 -F -R
+php-fpm8 -F -R

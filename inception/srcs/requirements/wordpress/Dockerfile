@@ -10,7 +10,11 @@ RUN	apk add --no-cache \
 	mariadb \
 	mariadb-client
 
-WORKDIR	/var/www
+WORKDIR	/var/www/html/
+
+RUN	mkdir -p /var/www/html/
+
+RUN	adduser -S nginx && addgroup -S nginx
 
 RUN	wget https://wordpress.org/latest.tar.gz
 
@@ -20,8 +24,6 @@ RUN	tar -xzf latest.tar.gz \
 RUN	wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar > /dev/null 2>&1 \
 	&& chmod +x wp-cli.phar \
 	&& mv wp-cli.phar /usr/local/bin/wp
-
-RUN	mkdir -p /var/www/html/
 
 RUN	cp -r wordpress/* .
 
@@ -35,6 +37,5 @@ RUN	chmod +x /tmp/setup.sh
 
 EXPOSE	9000
 
-# CMD	["/bin/sh" , "/tmp/setup.sh"]
-CMD	["top"]
+CMD	["/bin/sh" , "/tmp/setup.sh"]
 
