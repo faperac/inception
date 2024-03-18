@@ -3,7 +3,7 @@ path = ./srcs/docker-compose.yml
 
 
 all:
-	$(dc) $(path) up - --build
+	$(dc) $(path) up -d --build
 
 down:
 	$(dc) $(path) down
